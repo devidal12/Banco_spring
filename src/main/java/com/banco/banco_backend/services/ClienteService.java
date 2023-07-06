@@ -59,6 +59,22 @@ public class ClienteService {
 		return this.clienteRepository.findByGestorId(id);
 	}
 	
+	private String obtenerPasswordActual (Cliente cliente) {
+		Cliente clienteGuardado = leerClientePorId(cliente.getId()).orElse(null);
+		if (clienteGuardado != null) {
+		   return clienteGuardado.getPassword();
+		   
+		}
+		return null;
+	}
+	
+	
+	public Cliente guardarClienteSinActualizarPassword(Cliente cliente) {
+		String passGuardada = obtenerPasswordActual(cliente);
+		cliente.setPassword(passGuardada);
+		return this.clienteRepository.save(cliente);
+	}
+		
 	
 	public Optional<Cliente> buscarClientePorCorreoYPass(String correo, String password){
 		Optional<Cliente> cliente = buscarClientePorCorreo(correo);

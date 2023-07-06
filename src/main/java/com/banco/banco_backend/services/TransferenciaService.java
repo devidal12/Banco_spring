@@ -41,14 +41,14 @@ public class TransferenciaService {
 		Cliente beneficiario = transferencia.getBeneficiario();
 		
 		beneficiario = clienteService.leerClientePorId(beneficiario.getId()).orElse(null);
-		beneficiario.setPassword(null);
+		
 		
 		Double saldoBeneficiario = beneficiario.getSaldo();
 		
 		beneficiario.setSaldo(saldoBeneficiario + importe);
 		
-		clienteService.guardarCliente(ordenante);
-		clienteService.guardarCliente(beneficiario);
+		clienteService.guardarClienteSinActualizarPassword(ordenante);
+		clienteService.guardarClienteSinActualizarPassword(beneficiario);
 		
 		
 		return transferencia;
@@ -62,4 +62,15 @@ public class TransferenciaService {
 		this.transferenciaRepository.deleteById(id);
 	}
 	
-}
+	public ArrayList <Transferencia> buscarTransferenciaPorBeneficiarioId(Integer id){
+		return this.transferenciaRepository.findByBeneficiarioId(id);
+	}
+	
+	public ArrayList <Transferencia> buscarTransferenciaPorOrdenanteId(Integer id){
+		return this.transferenciaRepository.findByOrdenanteId(id);
+	}
+	
+
+	}
+	
+
